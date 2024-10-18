@@ -8,8 +8,8 @@ is to showcase my technical skills as both a competent programmer and engineer.
 
 ## 65c02 Workbench Computer
 
-The main goal of this project is to meet my needs for programming EEPROMs, controlling external peripherals via SPI, I2C, and UART, driving
-other miscellaneous logic devices, and controlling servos using PWM.
+The main goal of this project is to meet my needs for programming EEPROMs, controlling external peripherals via SPI, I2C, and UART, controlling
+servos using PWM. Driving other miscellaneous logic devices.
 
 The CPU is a WDC 65c02 running at 1 MHz. It includes an AS6C62256 32k x 8-bit static RAM, though the system uses only 16k for the main RAM. 
 There is one 65c22 Versatile Interface Adapters (VIA), which features two 8-bit ports for general-purpose input/output. The 65c22 also enables 
@@ -24,6 +24,38 @@ communication over RS232 with the help MAX232 line driver.
 | ACIA | $5000 - $5004 |
 | VIA | $6000 - $600F |
 | ROM | $8000 - $FFFF |
+
+### Software for the Workbench Computer
+
+One of the first programs I developed for the system was a memory monitor. I took inspiration from WozMon, and the monitor on the apple 2 line of
+computers. I would like to think my monitor is somewhat more sophisticated than WozMon. It allows for setting the current address to read from,
+writing n bytes to memory, reading n bytes back from memory, block examine memory, show the current address, examine address, and store address
+(These are used internally), show the contents of the registers, fill a range of memory with a value.
+
+#### Memory Monitor Commands
+
+| Change Address | `a $xxxx` |
+| Write n bytes | `w $xx $xx...` |
+| Read n bytes | `r $xxxx` |
+| Block examine | `b $xxxx $xxxx` |
+| Show Address | `o` |
+| Show Registers | `R` |
+| Fill range with value | `f $xxxx $xxxx $xx` |
+| Open mini assembler | `m` |
+| Open disassembler | `l` |
+
+Writing programs with the memory monitor in machine language got tedious fast. So, I developed a mini assembler. It is started from the memory monitor
+at the current address. The prompt looks like `$0400: ` and you can start writing assemble. Here's a simple program to print out all the ascii
+characters.
+
+```
+$0400: lda #$20
+$0402: jsr $804d  ;This is the location of the CHAR_OUT routine
+$0405: tax
+$0406: inx
+$0407: txa
+$0408: jmp $0402
+```
 
 ---
 
