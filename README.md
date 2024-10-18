@@ -1,5 +1,5 @@
 
-##65c02 Workbench Computer
+## 65c02 Workbench Computer
 
 The main goal of this project is to facilitate my needs to program EEPROMs, control external peripherals using SPI, I2C, and over UART, drive
 other miscellaneous logic devices, control servos with PWM.
@@ -11,8 +11,9 @@ used. This hold all the code for the computer's BIOS, memory monitor, mini assem
 In order to communicate with the computer it has a 65c51 Asynchrones Communications Interface Adapter (ACIA); this chip provides serial 
 communication over RS232 with the help MAX232 line driver.
 
-###Memory Map
+### Memory Map
 
+| ---- | ------------- |
 | RAM  | $0000 - $4000 |
 | ACIA | $5000 - $5004 |
 | VIA  | $6000 - $600F |
