@@ -20,10 +20,10 @@ communication over RS232 with the help MAX232 line driver.
 
 ### Memory Map
 
-| RAM  | $0000 - $4000 |
+| RAM | $0000 - $4000 |
 | ACIA | $5000 - $5004 |
-| VIA  | $6000 - $600F |
-| ROM  | $8000 - $FFFF |
+| VIA | $6000 - $600F |
+| ROM | $8000 - $FFFF |
 
 ---
 
