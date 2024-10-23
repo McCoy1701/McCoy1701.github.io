@@ -6,7 +6,37 @@ is to showcase my technical skills as both a competent programmer and engineer.
 
 ---
 
-## 65c02 Workbench Computer
+## JakesteringPi (https://github.com/McCoy1701/JakesteringPi)
+
+This is a C library I wrote to control the I/O pins of a Raspberry Pi Zero through its BCM2835 system-on-chip (SoC), enabling direct register access.
+I created this library because I found using MicroPython unsatisfactory, and wanted  full control over the hardware. While searching for alternative,
+I discovered the WiringPi library by Gordon Henderson, but it had been deprecated by the time I found it. So, I took the initiative to create my own
+alternative. I spent the following month (November of 2023) writing the library from scratch.
+
+My main goal was to make the library as simple as possible, with functionality similar to Arduino code. 
+
+<img src='./project_pictures/Jakestering_example_00.png'>
+
+---
+
+## EEPROM Programmer (https://github.com/McCoy1701/Flash-Programmer)
+
+I developed software to program the SST39SF040 flash ROM using my library, `JakesteringPi`. It's more than just a simple programmer; It allows me to
+read to contents of the ROM, retrieve the device ID, write a raw binary file, erase the ROM, compare its contents against a raw binary file.
+While it should work for the entire family of SST39SF flash ROMs, I've only tested it with the SST39SF040. Expanding the code to support any 
+5v EEPROM would be trivial.
+
+---
+
+## Logic Analyzer (https://github.com/McCoy1701/LogAnal)
+
+I initially developed this to help debug problems on my 65c02 Workbench computer, but it has become an invaluable tool. It also utilizes my
+library, `JakesteringPi`. The software continuously monitors the GPIO lines of a Raspberry Pi Zero waiting for a interrupt. When triggered, it
+outputs the state of all the GPIO pins.
+
+---
+
+## 65c02 Workbench Computer (https://github.com/McCoy1701/Project8)
 
 <img src='./project_pictures/6502_computer_00.jpg'>
 
@@ -75,33 +105,4 @@ all of RAM as $00* The disassembler takes advantage of this when it encounters 4
 
 - Memory allocator
 - Forth system
-
----
-
-## JakesteringPi
-
-This is a C library I wrote to control the I/O pins of a Raspberry Pi Zero through its BCM2835 system-on-chip (SoC), enabling direct register access.
-I created this library because I found using MicroPython unsatisfactory, and wanted  full control over the hardware. While searching for alternative,
-I discovered the WiringPi library by Gordon Henderson, but it had been deprecated by the time I found it. So, I took the initiative to create my own
-alternative. I spent the following month (November of 2023) writing the library from scratch.
-
-My main goal was to make the library as simple as possible, with functionality similar to Arduino code. 
-For example, `DigitalWrite( pin, value )` and `DigitalRead( pin )` returns value of pin.
-
----
-
-## EEPROM Programmer
-
-I developed a piece of software to program SST39SF040 flash ROM using my library JakesteringPi. It's more than a simple programmer. It allows me to
-read to contents of the ROM, read the device ID, write a raw binary file, erase the ROM, compare the contents of the ROM against a raw binary file.
-It should work for the whole family of SST39SF flash ROMs; I've only tested the SST39SF040. It would be trivial to expand the code to support any 
-EEPROM.
-
----
-
-## Logic Analyzer
-
-I developed this to help me debug problems on my 65c02 Workbench computer, but it has turned into an invaluable piece of software. It also uses my
-library JakesteringPi. It continually monitors the GPIO lines of a Raspberry Pi Zero waiting for a interrupt; at that time it will output the state
-of all the GPIO pins.
 
