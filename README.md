@@ -56,7 +56,7 @@ Jakestering Pi has a good deal of useful functions to offer.
 | `digitalWrite( const int pin, const int value )` | set *x* pin to value |
 | `digitalRead( const int pin )` | returns the value of *x* pin |
 | `digitalWriteByte( const int pin, const int pinStart, const int pinEnd )` | writes a byte to a set of pins |
-| `jakestering_ISR( const int pin, const int mode, void (*function)(void)` | x pin triggers an interrupt based on the mode |
+| `jakestering_ISR( const int pin, const int mode, void (*function)(void)` | *x* pin triggers an interrupt based on the mode |
 
 *ISR modes: Rising edge, Falling edge, Both edge, High detect, Low detect, Async Rising edge, Async Falling Edge*
 
