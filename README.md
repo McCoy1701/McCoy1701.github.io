@@ -8,6 +8,8 @@ is to showcase my technical skills as both a competent programmer and engineer.
 
 ## 65c02 Workbench Computer
 
+![alt text](https://imgur.com/a/hiYqGEM)
+
 The main goal of this project is to meet my needs for programming EEPROMs, controlling external peripherals via SPI, I2C, and UART, controlling
 servos using PWM. Driving other miscellaneous logic devices.
 
@@ -17,6 +19,12 @@ the system to have timer-driven interrupts, based on its own clock running at 1.
 with only 32k in use. This holds all the code for the BIOS, memory monitor, mini assembler/disassembler, and routines for interfacing with a 
 128x64 LCD. For communication, the system uses a 65c51 Asynchronous Communications Interface Adapter (ACIA), providing serial 
 communication over RS232 with the help MAX232 line driver.
+
+One of the main factors taken under consideration during initial development of the computer was cost. I wanted this machine to be as cheap as
+possible; with quality components. The whole computer only costed me $82. Another factor, was to use components that I already had on hand, or
+could scrounge from e-waste. For instance, most of the wiring is from an old IDE cable. When that ran out I switched to using the enamel copper
+wire from shaded pole induction motor. The power supply uses a LM7805 from an old typewriter ( surprisingly this typewriter had a M50747, which
+is a microcomputer on a chip, whose CPU is a derivative of the 6502 ).
 
 ### Memory Map
 
