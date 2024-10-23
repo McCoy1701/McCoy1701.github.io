@@ -45,6 +45,9 @@ This index is then used in a series of macros to affect the desired register.
 ```
 
 Jakestering Pi has a good deal of useful functions to offer.
+
+| Syntax | Description |
+| ----------- | ----------- |
 | `setupIO( void )` | has to be called before any other function |
 | `delay( int milliSeconds )` | delay for *n* milli seconds |
 | `delayMicro( int microSecond )` | delay for *n* micro seconds |
@@ -98,6 +101,8 @@ is a microcomputer on a chip with a CPU derived the 6502).
 
 ### Memory Map
 
+| | |
+| ----------- | ----------- |
 | RAM | $0000 - $4000 |
 | ACIA | $5000 - $5004 |
 | VIA | $6000 - $600F |
@@ -112,6 +117,8 @@ examining and storing addresses (used internally), displaying the contents of th
 
 #### Memory Monitor Commands
 
+| Description | Syntax |
+| ----------- | ----------- |
 | Change Address | `a $xxxx` |
 | Write n bytes | `w $xx $xx...` |
 | Read n bytes | `r $xxxx` |
