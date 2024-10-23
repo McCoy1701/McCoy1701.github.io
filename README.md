@@ -17,11 +17,51 @@ My main goal was to make the library as simple as possible, with functionality s
 
 <img src='./project_pictures/Jakestering_example_00.png'>
 
+It works by mapping a block of memory to the address $20200000 which is the start of the GPIO registers.
+`gpioMap = mmap( NULL, BLOCK_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, memFd, GPIO_BASE );`
+Then it sets an index into this map.
+`gpio = ( volatile unsigned* )gpioMap;`
+This index is then used in a series of macros to affect the desired register.
+```
+#define INP_GPIO( g ) *( gpio + ( ( g ) / 10 ) ) &= ~( 7 << ( ( (g) % 10 ) * 3 ) )
+#define OUT_GPIO( g ) *( gpio + ( ( g ) / 10 ) ) |=  ( 1 << ( ( (g) % 10 ) * 3 ) )
+#define SET_GPIO_ALT( g, a ) *( gpio + ( ( ( g ) / 10 ) ) ) |= ( ( (a) <= 3 ? (a) + 4 : (a) == 4 ? 3 : 2) << ( ( (g) % 10 ) * 3 ) )
+
+#define GPIO_SET *( gpio + 7 )
+#define GPIO_CLR *( gpio + 10 )
+
+#define GPIO_LEV( g ) ( *( gpio + 13 ) & ( 1 << g ) )
+
+#define GPIO_EDS  *( gpio + 16 )
+#define GPIO_REN  *( gpio + 19 )
+#define GPIO_FEN  *( gpio + 22 )
+#define GPIO_HEN  *( gpio + 25 )
+#define GPIO_LEN  *( gpio + 28 )
+#define GPIO_AREN *( gpio + 31 )
+#define GPIO_AFEN *( gpio + 34 )
+
+#define GPIO_PULL *( gpio + 37 )
+#define GPIO_PULLCLK0 *( gpio + 38 )
+```
+
+Jakestering Pi has a good deal of useful functions to offer.
+| `setupIO( void )` | has to be called before any other function |
+| `delay( int milliSeconds )` | delay for *n* milli seconds |
+| `delayMicro( int microSecond )` | delay for *n* micro seconds |
+| `pinMode( const int pin, const int mode )` | sets *x* pin to INPUT/OUTPUT |
+| `pudController( const int pin, const int PUD)` | set *x* pin to pull up/down/disable |
+| `digitalWrite( const int pin, const int value )` | set *x* pin to value |
+| `digitalRead( const int pin )` | returns the value of *x* pin |
+| `digitalWriteByte( const int pin, const int pinStart, const int pinEnd )` | writes a byte to a set of pins |
+| `jakestering_ISR( const int pin, const int mode, void (*function)(void)` | x pin triggers an interrupt based on the mode |
+
+*ISR modes: Rising edge, Falling edge, Both edge, High detect, Low detect, Async Rising edge, Async Falling Edge*
+
 ---
 
 ## [EEPROM Programmer](https://github.com/McCoy1701/Flash-Programmer)
 
-I developed software to program the SST39SF040 flash ROM using my library, `JakesteringPi`. It's more than just a simple programmer; It allows me to
+I developed software to program the SST39SF040 flash ROM using my library, *JakesteringPi*. It's more than just a simple programmer; It allows me to
 read to contents of the ROM, retrieve the device ID, write a raw binary file, erase the ROM, compare its contents against a raw binary file.
 While it should work for the entire family of SST39SF flash ROMs, I've only tested it with the SST39SF040. Expanding the code to support any 
 5v EEPROM would be trivial.
@@ -31,7 +71,7 @@ While it should work for the entire family of SST39SF flash ROMs, I've only test
 ## [Logic Analyzer](https://github.com/McCoy1701/LogAnal)
 
 I initially developed this to help debug problems on my 65c02 Workbench computer, but it has become an invaluable tool. It also utilizes my
-library, `JakesteringPi`. The software continuously monitors the GPIO lines of a Raspberry Pi Zero waiting for a interrupt. When triggered, it
+library, *JakesteringPi*. The software continuously monitors the GPIO lines of a Raspberry Pi Zero waiting for a interrupt. When triggered, it
 outputs the state of all the GPIO pins.
 
 ---
