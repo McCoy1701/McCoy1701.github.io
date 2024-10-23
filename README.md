@@ -10,8 +10,6 @@ is to showcase my technical skills as both a competent programmer and engineer.
 
 <img src='./project_pictures/6502_computer_00.jpg'>
 
-#[Imgur](https://imgur.com/gNSZbQY)
-
 The main goal of this project is to meet my needs for programming EEPROMs, controlling external peripherals via SPI, I2C, and UART, controlling
 servos using PWM. Driving other miscellaneous logic devices.
 
