@@ -8,7 +8,7 @@ is to showcase my technical skills as both a competent programmer and engineer.
 
 ## 65c02 Workbench Computer
 
-![Imgur Image](https://imgur.com/a/hiYqGEM.jpg)
+[Imgur](https://imgur.com/gNSZbQY)
 
 The main goal of this project is to meet my needs for programming EEPROMs, controlling external peripherals via SPI, I2C, and UART, controlling
 servos using PWM. Driving other miscellaneous logic devices.
