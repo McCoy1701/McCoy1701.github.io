@@ -4,6 +4,15 @@
 This is brief overview of some embedded hardware/software projects I have developed over the past few years. The purpose of this site
 is to showcase my technical skills as both a competent programmer and engineer.
 
+### My Skills
+
+- Over 2 years of experience in C programming, and GDB debugger.
+- More than 3 years of experience in Python programming.
+- 2+ years of experience in KiCad Circuit Design.
+- 5+ years working with AutoDesk software, including AutoCad, Fusion 360, Inventor, and Eagle.
+- 10+ years of hands-on soldering, including through-hole, surface mount, and hot air soldering techniques.
+- 2 years of experience working with Linux.
+
 ---
 
 ## [JakesteringPi](https://github.com/McCoy1701/JakesteringPi)
@@ -44,7 +53,7 @@ This index is then used in a series of macros to affect the desired register.
 #define GPIO_PULLCLK0 *( gpio + 38 )
 ```
 
-Jakestering Pi has a good deal of useful functions to offer.
+Jakestering Pi has simple set of useful functions to offer.
 
 | Syntax | Description |
 | ----------- | ----------- |
@@ -60,6 +69,24 @@ Jakestering Pi has a good deal of useful functions to offer.
 
 *ISR modes: Rising edge, Falling edge, Both edge, High detect, Low detect, Async Rising edge, Async Falling Edge*
 
+<img src='./project_pictures/Jakestering_binary_counter_00.gif'>
+*Testing backplane of the workbench computer using a program writen with JakesteringPi*
+
+The real work of the backplane test program is done by the function outputCount. It loops through all 8-bits of a unsigned 8-bit number (count),
+shifts out each bit and test if it's set, then writes that bit to the respective pin (i + offset, i is what bit we are on, offset is what pin is
+going to be the LSB).
+
+```
+void outputCount( uint8_t count, int offset )
+{
+  for ( int i = 0; i < 8; i++ )
+  {
+    uint8_t bit = ( count >> ( i ) ) & 1;
+    digitalWrite( i + offset, bit );
+  }
+}
+```
+
 ---
 
 ## [EEPROM Programmer](https://github.com/McCoy1701/Flash-Programmer)
@@ -68,6 +95,17 @@ I developed software to program the SST39SF040 flash ROM using my library, *Jake
 read to contents of the ROM, retrieve the device ID, write a raw binary file, erase the ROM, compare its contents against a raw binary file.
 While it should work for the entire family of SST39SF flash ROMs, I've only tested it with the SST39SF040. Expanding the code to support any 
 5v EEPROM would be trivial.
+
+| Syntax | Description |
+| ----------- | ----------- |
+| `-h` | Display help |
+| `-w file` | Write a binary file to flash device |
+| `-r amount` | Read amout of bytes |
+| `-v` | Check the version of flash |
+| `-c file` | Verify the contents of Flash are the same as file |
+| `-e` | erase the whole Flash |
+
+<img src='./project_pictures/EEPROM_flasher_00.png'>
 
 ---
 
@@ -101,8 +139,6 @@ is a microcomputer on a chip with a CPU derived the 6502).
 
 ### Memory Map
 
-| | |
-| ----------- | ----------- |
 | RAM | $0000 - $4000 |
 | ACIA | $5000 - $5004 |
 | VIA | $6000 - $600F |
