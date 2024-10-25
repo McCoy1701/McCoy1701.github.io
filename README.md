@@ -69,10 +69,11 @@ Jakestering Pi has simple set of useful functions to offer.
 
 *ISR modes: Rising edge, Falling edge, Both edge, High detect, Low detect, Async Rising edge, Async Falling Edge*
 
-<img src='./project_pictures/Jakestering_binary_counter_00.gif'>
-*Testing backplane of the workbench computer using a program writen with JakesteringPi*
+<img src='./project_pictures/Jakestering_binary_counter_01.gif'>
 
-The real work of the backplane test program is done by the function outputCount. It loops through all 8-bits of a unsigned 8-bit number (count),
+*A simple binary counter test*
+
+The real work of the test program is done by the function outputCount. It loops through all 8-bits of a unsigned 8-bit number (count),
 shifts out each bit and test if it's set, then writes that bit to the respective pin (i + offset, i is what bit we are on, offset is what pin is
 going to be the LSB).
 
@@ -107,6 +108,17 @@ While it should work for the entire family of SST39SF flash ROMs, I've only test
 
 <img src='./project_pictures/EEPROM_flasher_00.png'>
 
+In order to write a byte to the SST39SF040 you have to write $AA to address $5555, then $55 to address $2AAA, then $A0 to address $5555, now you can
+write a byte to any address. The documentation calls this a software command sequence. There are 6 of them: Byte-Program, Sector-Erase, Chip-
+Erase, Software ID Entry, 2 different Software ID Exits.
+
+```
+  writeFlash( 0x5555, 0xaa );
+  writeFlash( 0x2aaa, 0x55 );
+  writeFlash( 0x5555, 0xa0 );
+  writeFlash( addr  , byte );
+```
+
 ---
 
 ## [Logic Analyzer](https://github.com/McCoy1701/LogAnal)
@@ -114,6 +126,14 @@ While it should work for the entire family of SST39SF flash ROMs, I've only test
 I initially developed this to help debug problems on my 65c02 Workbench computer, but it has become an invaluable tool. It also utilizes my
 library, *JakesteringPi*. The software continuously monitors the GPIO lines of a Raspberry Pi Zero waiting for a interrupt. When triggered, it
 outputs the state of all the GPIO pins.
+
+<img src='./project_pictures/6502_debugging.jpg'>
+
+*A typical setup for debugging the address, and data lines, clock, read/write*
+
+<img src='./project_pictures/LogicAnalyzer_output_00.png'>
+
+*Logic Analyzer showing the 65c02 reset sequence*
 
 ---
 
