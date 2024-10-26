@@ -12,24 +12,29 @@ is to showcase my technical skills as both a competent programmer and engineer.
 - 5+ years working with AutoDesk software, including AutoCad, Fusion 360, Inventor, and Eagle.
 - 10+ years of hands-on soldering, including through-hole, surface mount, and hot air soldering techniques.
 - 2 years of experience working with Linux.
+- 3 years of experience with version control, git/github
 
 ---
 
 ## [JakesteringPi](https://github.com/McCoy1701/JakesteringPi)
 
 This is a C library I wrote to control the I/O pins of a Raspberry Pi Zero through its BCM2835 system-on-chip (SoC), enabling direct register access.
-I created this library because I found using MicroPython unsatisfactory, and wanted  full control over the hardware. While searching for alternative,
-I discovered the WiringPi library by Gordon Henderson, but it had been deprecated by the time I found it. So, I took the initiative to create my own
-alternative. I spent the following month (November of 2023) writing the library from scratch.
+I created this library because I found using MicroPython unsatisfactory, and wanted  full control over the hardware. While searching for an 
+alternative, I discovered the WiringPi library by Gordon Henderson, but it had been deprecated by the time I found it. So, I took the initiative
+to create my own alternative. I spent the following month (November of 2023) writing the library from scratch.
 
 My main goal was to make the library as simple as possible, with functionality similar to Arduino code. 
 
 <img src='./project_pictures/Jakestering_example_00.png'>
 
 It works by mapping a block of memory to the address $20200000 which is the start of the GPIO registers.
+
 `gpioMap = mmap( NULL, BLOCK_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, memFd, GPIO_BASE );`
+
 Then it sets an index into this map.
+
 `gpio = ( volatile unsigned* )gpioMap;`
+
 This index is then used in a series of macros to affect the desired register.
 ```
 #define INP_GPIO( g ) *( gpio + ( ( g ) / 10 ) ) &= ~( 7 << ( ( (g) % 10 ) * 3 ) )
