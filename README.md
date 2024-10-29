@@ -161,7 +161,7 @@ One of the main factors considered during the initial development of the compute
 possible while using quality ICs. The entire build only cost me $82. Another key factor was to use components that I already had on hand, or
 could scavenge from e-waste. For instance, most of the wiring is from an old IDE cable. When that ran out, I switched to using enamel copper
 wire from shaded pole induction motor. The power supply uses a LM7805 from an old typewriter (interestingly, this typewriter had an M50747, which
-is a microcomputer on a chip with a CPU derived the 6502).
+is a microcomputer on a chip with a CPU derived from the 6502).
 
 ### Memory Map
 
