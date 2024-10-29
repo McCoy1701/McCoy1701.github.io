@@ -8,10 +8,10 @@ is to showcase my technical skills and passion for electronics.
 
 - Over 2 years of experience programming in C, and using GDB.
 - More than 3 years of experience programming in Python.
-- 2+ years of experience with KiCad Circuit Design.
+- 2+ years of experience with KiCad.
 - 5+ years working with AutoDesk software, including AutoCad, Fusion 360, Inventor, and Eagle.
 - 10+ years of hands-on soldering, including through-hole, surface mount, and hot air soldering techniques.
-- 2 years of experience working with Linux.
+- 2 years of experience working with Linux
 - 3 years of experience with version control, git/github
 
 ---
@@ -27,11 +27,11 @@ My main goal was to make the library as simple as possible, with functionality s
 
 <img src='./project_pictures/Jakestering_example_00.png'>
 
-It works by mapping a block of memory to the address $20200000 which is the start of the GPIO registers.
+It works by mapping a block of memory starting from the address $20200000 which is the start of the GPIO registers.
 
 `gpioMap = mmap( NULL, BLOCK_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, memFd, GPIO_BASE );`
 
-Then it sets an index into this map.
+Then, *gpio* is used as an index into this map.
 
 `gpio = ( volatile unsigned* )gpioMap;`
 
@@ -106,17 +106,17 @@ be trivial.
 | ----------- | ----------- |
 | `-h` | Display help |
 | `-w file` | Write a binary file to flash device |
-| `-r amount` | Read *n* amout of bytes |
-| `-v` | Check the version of flash |
-| `-c file` | Verify the contents of Flash are the same as file |
-| `-e` | erase the whole Flash |
+| `-r amount` | Read *n* bytes |
+| `-v` | Check the flash's device ID |
+| `-c file` | Verify the contents of ROM are the same as file |
+| `-e` | erase the whole ROM |
 
 <img src='./project_pictures/EEPROM_flasher_00.png'>
 
 One of the challenges I faced when developing this programmer was. In order to write a byte, or do anything for that matter, you have to send a
 software command sequence to the SST39SF040. The one for writing a byte looks like this: write $AA to address $5555, then $55 to address $2AAA, then
-$A0 to address $5555, now write a byte to any address. There are 6 of them: Byte-Program, Sector-Erase, Chip- Erase, Software ID Entry, 2 different
-Software ID Exits.
+$A0 to address $5555, now write a byte to any address. There are 6 software command sequences: Byte-Program, Sector-Erase, Chip- Erase, Software ID
+Entry, and 2 different Software ID Exits.
 
 ```
   writeFlash( 0x5555, 0xaa );
@@ -124,6 +124,8 @@ Software ID Exits.
   writeFlash( 0x5555, 0xa0 );
   writeFlash( addr  , byte );
 ```
+
+*taken from [void byteProgram( unsigned int addr, unsigned int byte )](https://github.com/McCoy1701/Flash-Programmer/blob/main/src/flash.c)*
 
 ---
 
@@ -150,12 +152,12 @@ outputs the state of all the GPIO pins.
 The main goal of this project is to meet my needs for programming EEPROMs, controlling external peripherals via SPI, I2C, and UART, controlling
 servos using PWM. Driving other miscellaneous logic devices.
 
-The CPU is a WDC 65c02 running at 1 MHz. It includes an AS6C62256 32k x 8-bit static RAM, though the system uses only 16k for the main RAM. 
+The CPU is a WDC 65c02 running at 1 MHz. It includes an AS6C62256 32k x 8-bit static RAM, though the system uses only 16k for the main RAM.
 There is one 65c22 Versatile Interface Adapters (VIA), which features two 8-bit ports for general-purpose input/output. The 65c22 also enables 
 the system to have timer-driven interrupts, based on its own internal timers. The computer has a 512k x 8-bit SST39SF040 flash ROM, with only 32k in
 use. This holds all the code for the BIOS, memory monitor, mini assembler/disassembler, and routines for interfacing with a 128x64 LCD. For
-communication, the system uses a 65c51 Asynchronous Communications Interface Adapter (ACIA), providing serial communication over RS232 with the help
-MAX232 line driver.
+communication, the system uses a 65c51 Asynchronous Communications Interface Adapter (ACIA), providing serial communication over RS232 with help from
+a MAX232 line driver.
 
 One of the main factors considered during the initial development of the computer was cost. I wanted this machine to be as cheap as
 possible while using quality ICs. The entire build only cost me $82. Another key factor was to use components that I already had on hand, or
@@ -182,8 +184,8 @@ examining and storing addresses (used internally), displaying the contents of th
 | Description | Syntax |
 | ----------- | ----------- |
 | Change Address | `a $xxxx` |
-| Write n bytes | `w $xx $xx...` |
-| Read n bytes | `r $xxxx` |
+| Write *n* bytes | `w $xx $xx...` |
+| Read *n* bytes | `r $xxxx` |
 | Execute | `x` |
 | Block examine | `b $xxxx $xxxx` |
 | Show Address | `o` |
