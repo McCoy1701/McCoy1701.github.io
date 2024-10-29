@@ -1,14 +1,14 @@
 
 # Embedded Software Portfolio
 
-This is brief overview of some embedded hardware/software projects I have developed over the past few years. The purpose of this site
-is to showcase my technical skills as both a competent programmer and engineer.
+An overview of some embedded hardware/software projects I have developed over the past few years. The purpose of this site
+is to showcase my technical skills and passion for electronics.
 
 ### My Skills
 
-- Over 2 years of experience in C programming, and GDB debugger.
-- More than 3 years of experience in Python programming.
-- 2+ years of experience in KiCad Circuit Design.
+- Over 2 years of experience programming in C, and using GDB.
+- More than 3 years of experience programming in Python.
+- 2+ years of experience with KiCad Circuit Design.
 - 5+ years working with AutoDesk software, including AutoCad, Fusion 360, Inventor, and Eagle.
 - 10+ years of hands-on soldering, including through-hole, surface mount, and hot air soldering techniques.
 - 2 years of experience working with Linux.
@@ -18,12 +18,12 @@ is to showcase my technical skills as both a competent programmer and engineer.
 
 ## [JakesteringPi](https://github.com/McCoy1701/JakesteringPi)
 
-This is a C library I wrote to control the I/O pins of a Raspberry Pi Zero through its BCM2835 system-on-chip (SoC), enabling direct register access.
-I created this library because I found using MicroPython unsatisfactory, and wanted  full control over the hardware. While searching for an 
-alternative, I discovered the WiringPi library by Gordon Henderson, but it had been deprecated by the time I found it. So, I took the initiative
-to create my own alternative. I spent the following month (November of 2023) writing the library from scratch.
+This is a C library I wrote to control the GPIO pins of a Raspberry Pi Zero through its BCM2835 system-on-chip (SoC), enabling direct register access.
+I created this library because I found using MicroPython unsatisfactory, and wanted full control over the hardware. While searching for an alternative,
+I discovered the WiringPi library by Gordon Henderson, but it had been deprecated by the time I found it. So, I took the initiative to create my own
+alternative. I spent the following month (November of 2023) writing the library from scratch.
 
-My main goal was to make the library as simple as possible, with functionality similar to Arduino code. 
+My main goal was to make the library as simple as possible, with functionality similar to Arduino code.
 
 <img src='./project_pictures/Jakestering_example_00.png'>
 
@@ -58,7 +58,7 @@ This index is then used in a series of macros to affect the desired register.
 #define GPIO_PULLCLK0 *( gpio + 38 )
 ```
 
-Jakestering Pi has simple set of useful functions to offer.
+Jakestering Pi has a simple set of useful functions to offer.
 
 | Syntax | Description |
 | ----------- | ----------- |
@@ -78,9 +78,9 @@ Jakestering Pi has simple set of useful functions to offer.
 
 *A simple binary counter test*
 
-The real work of the test program is done by the function outputCount. It loops through all 8-bits of a unsigned 8-bit number (count),
-shifts out each bit and test if it's set, then writes that bit to the respective pin (i + offset, i is what bit we are on, offset is what pin is
-going to be the LSB).
+The real work of the test program is done by the function outputCount. It loops through all 8-bits of an unsigned 8-bit number (count), shifting out
+each bit and testing whether or not it's set, then writes that result to the respective pin (i + offset, i is what bit we are on, offset is what pin
+is going to be the LSB).
 
 ```
 void outputCount( uint8_t count, int offset )
@@ -97,25 +97,26 @@ void outputCount( uint8_t count, int offset )
 
 ## [EEPROM Programmer](https://github.com/McCoy1701/Flash-Programmer)
 
-I developed software to program the SST39SF040 flash ROM using my library, *JakesteringPi*. It's more than just a simple programmer; It allows me to
-read to contents of the ROM, retrieve the device ID, write a raw binary file, erase the ROM, compare its contents against a raw binary file.
-While it should work for the entire family of SST39SF flash ROMs, I've only tested it with the SST39SF040. Expanding the code to support any 
-5v EEPROM would be trivial.
+I developed software to program the SST39SF040 flash ROM using my library, *JakesteringPi*. It's more than just a simple ROM programmer; It allows me
+to read to contents of the ROM, retrieve the device ID, write a raw binary file, erase the ROM, compare its contents against a raw binary file. While
+it should work for the entire family of SST39SF flash ROMs, I've only tested it with the SST39SF040. Expanding the code to support any 5v EEPROM would
+be trivial.
 
 | Syntax | Description |
 | ----------- | ----------- |
 | `-h` | Display help |
 | `-w file` | Write a binary file to flash device |
-| `-r amount` | Read amout of bytes |
+| `-r amount` | Read *n* amout of bytes |
 | `-v` | Check the version of flash |
 | `-c file` | Verify the contents of Flash are the same as file |
 | `-e` | erase the whole Flash |
 
 <img src='./project_pictures/EEPROM_flasher_00.png'>
 
-In order to write a byte to the SST39SF040 you have to write $AA to address $5555, then $55 to address $2AAA, then $A0 to address $5555, now you can
-write a byte to any address. The documentation calls this a software command sequence. There are 6 of them: Byte-Program, Sector-Erase, Chip-
-Erase, Software ID Entry, 2 different Software ID Exits.
+One of the challenges I faced when developing this programmer was. In order to write a byte, or do anything for that matter, you have to send a
+software command sequence to the SST39SF040. The one for writing a byte looks like this: write $AA to address $5555, then $55 to address $2AAA, then
+$A0 to address $5555, now write a byte to any address. There are 6 of them: Byte-Program, Sector-Erase, Chip- Erase, Software ID Entry, 2 different
+Software ID Exits.
 
 ```
   writeFlash( 0x5555, 0xaa );
@@ -151,10 +152,10 @@ servos using PWM. Driving other miscellaneous logic devices.
 
 The CPU is a WDC 65c02 running at 1 MHz. It includes an AS6C62256 32k x 8-bit static RAM, though the system uses only 16k for the main RAM. 
 There is one 65c22 Versatile Interface Adapters (VIA), which features two 8-bit ports for general-purpose input/output. The 65c22 also enables 
-the system to have timer-driven interrupts, based on its own clock running at 1.8432 MHz. The computer has a 512k x 8-bit SST39SF040 flash ROM,
-with only 32k in use. This holds all the code for the BIOS, memory monitor, mini assembler/disassembler, and routines for interfacing with a 
-128x64 LCD. For communication, the system uses a 65c51 Asynchronous Communications Interface Adapter (ACIA), providing serial 
-communication over RS232 with the help MAX232 line driver.
+the system to have timer-driven interrupts, based on its own internal timers. The computer has a 512k x 8-bit SST39SF040 flash ROM, with only 32k in
+use. This holds all the code for the BIOS, memory monitor, mini assembler/disassembler, and routines for interfacing with a 128x64 LCD. For
+communication, the system uses a 65c51 Asynchronous Communications Interface Adapter (ACIA), providing serial communication over RS232 with the help
+MAX232 line driver.
 
 One of the main factors considered during the initial development of the computer was cost. I wanted this machine to be as cheap as
 possible while using quality ICs. The entire build only cost me $82. Another key factor was to use components that I already had on hand, or
